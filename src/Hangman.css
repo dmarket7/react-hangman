@@ -1,0 +1,8 @@
+.Hangman {
+  width: 200px;
+  text-align: center;
+}
+
+.Hangman-word {
+  letter-spacing: 1em;
+}
