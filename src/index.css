@@ -3,3 +3,15 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.true {
+  background-color: orange;
+  border-radius: 5px;
+}
+
+.reset {
+  background-color: rosybrown;
+  color: #ffffff;
+  border-radius: 5px;
+  padding: 5px;
+}

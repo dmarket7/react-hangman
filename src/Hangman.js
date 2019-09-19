@@ -20,6 +20,7 @@ class Hangman extends Component {
     super(props);
     this.state = { nWrong: 0, guessed: new Set(), answer: randomWord() };
     this.handleGuess = this.handleGuess.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   /** guessedWord: show current-state of word:
@@ -46,7 +47,7 @@ class Hangman extends Component {
   /** generateButtons: return array of letter buttons to render */
   generateButtons() {
     if (this.state.nWrong === this.props.maxWrong) {
-      return "You LOSE!!!"
+      return `You LOSE!!! The word was ${this.state.answer}`;
     } else {
       return "abcdefghijklmnopqrstuvwxyz".split("").map(ltr => (
         <button
@@ -54,6 +55,7 @@ class Hangman extends Component {
           value={ltr}
           onClick={this.handleGuess}
           disabled={this.state.guessed.has(ltr)}
+          className={`${this.state.guessed.has(ltr)}`}
         >
           {ltr}
         </button>
@@ -61,16 +63,34 @@ class Hangman extends Component {
     }
   }
 
+  reset() {
+    this.setState({ nWrong: 0, guessed: new Set(), answer: randomWord() });
+  }
+
   /** render: render game */
   render() {
-    return (
-      <div className="Hangman">
-        <img src={this.props.images[this.state.nWrong]} />
-        <p>Num wrong guesses: {this.state.nWrong}</p>
-        <p className="Hangman-word">{this.guessedWord()}</p>
-        <p>{this.generateButtons()}</p>
-      </div>
-    );
+    let guessedWord = this.guessedWord();
+    if (guessedWord.indexOf('_') < 0) {
+      return (
+        <div className="Hangman">
+          <img src={this.props.images[this.state.nWrong]} />
+          <p>You WIN!!!</p>
+          <p>Winning word: <b>{this.state.answer}</b></p>
+          <button className='reset' onClick={this.reset}>RESET</button>
+        </div>
+      );
+
+    } else {
+      return (
+        <div className="Hangman">
+          <img src={this.props.images[this.state.nWrong]} />
+          <p>Num wrong guesses: {this.state.nWrong}</p>
+          <p className="Hangman-word">{guessedWord}</p>
+          <p>{this.generateButtons()}</p>
+          <button className='reset' onClick={this.reset}>RESET</button>
+        </div>
+      );
+    }
   }
 }
 
